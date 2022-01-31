@@ -1,20 +1,27 @@
 import './scss/style.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import RootContext from './context/index'
+import "bulma/css/bulma.css";
 
-import Home from './components/Home';
+import Home from './Home';
+import { BrowserRouter } from 'react-router-dom';
 
 const renderApplication = () => {
-  ReactDOM.render(
-    <Home /> ,
+	ReactDOM.render(
+		<RootContext>
+			<BrowserRouter>
+			<Home />
+			</BrowserRouter>
+		</RootContext>,
     document.querySelector('#root')
   );
 }
 
-renderApplication(Home);
+renderApplication();
 
 if (module.hot) {
-  module.hot.accept("./components/Home", () => {
+	module.hot.accept("./Home", () => {
     renderApplication();
   });
 }
