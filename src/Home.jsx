@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { RootContext } from './context';
 import {
 	Switch,
@@ -10,17 +10,26 @@ import {
 } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
 import Products from './components/products/Products';
-// import { Cart } from './components/Cart/Cart';
+import Cart from './components/Cart/Cart';
 
 
 const Home = () => {
+	const {
+		cart, setCart, products, setProducts, productsCopy, setProductsCopy
+	} = useContext(RootContext);
+	if (productsCopy == null) {
+		setProductsCopy(products);
+	}
+
+
+
 	return (
 		<div>
 			<Navbar />
 			<Routes>
-				<Route path="/" element={<Products />} />
-				{/* <Route path="/cart" element={<Cart />} /> */}
-				<Route path="/p" element={<Products />} />
+				<Route path="/" element={<Products productsCopy={productsCopy} setProductsCopy={setProductsCopy} />} />
+				<Route path="/cart" element={<Cart />} />
+				<Route path="/products" element={<Products />} />
 			</Routes>
 		</div>
 	)

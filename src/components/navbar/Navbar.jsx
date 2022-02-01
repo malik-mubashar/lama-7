@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 	const {
-		testValue, setTestValue
+		productsCopy, setProductsCopy, products, cart, setCart, cartTotal, setCartTotal
 	} = useContext(RootContext);
 
 	return (
@@ -45,7 +45,7 @@ const Navbar = () => {
 						className="tag is-primary"
 						style={{ marginLeft: "5px" }}
 					>
-						{/* {Object.keys(this.state.cart).length} */}
+						{cartTotal}
 					</span>
 				</Link>
 				{true ? (
