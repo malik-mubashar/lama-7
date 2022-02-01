@@ -2,36 +2,75 @@ import React, { useContext, useEffect, useState } from 'react';
 import { RootContext } from '../../context/index'
 import ProductItem from "./ProductItem";
 
-const Products = () => {
-	//RootContext
+const Products = (props) => {
 	const {
-		products, setProducts
+		productsCopy, setProductsCopy, products, cart, setCart, cartTotal, setCartTotal
 	} = useContext(RootContext);
 
-	// const [productsReceived, setproductsReceived] = useState();
+	const handleStock = (obj) => {
+		console.log(props.productsCopy);
+		let tempObj = JSON.parse(JSON.stringify(productsCopy));
+		tempObj.products.map(x => {
+			if (x.id === obj.id) {
+				x.stock = x.stock - 1;
+			}
+		});
+		setProductsCopy(tempObj);
 
+		addToCart(obj);
+	}
+	const addToCart = (obj) => {
+		let idFound = false;
+		let tempCart = [...cart];
+		if (cart.length == 0) {
+			obj['quantity'] = 1;
+			tempCart.push(obj);
+		} else {
+			tempCart.map(x => {
+				if (x.id == obj.id) {
+					x.quantity = x.quantity + 1;
+					idFound = true;
+				}
+			})
+			if (!idFound) {
+				obj['quantity'] = 1;
+				tempCart.push(obj);
+			}
+		}
+		debugger;
 
-	useEffect(() => {
-		// debugger;
-		console.log(products)
-	}, [products]);
+		setCart(tempCart);
+		calculateCartTotalProducts(tempCart);
+	}
 
+	const calculateCartTotalProducts = (currentCart) => {
+		let total = 0;
+		currentCart.map(x => {
+			total = total + x.quantity;
+		})
+		setCartTotal(total);
+	}
+
+	debugger;
 	return (
 		<div>
 			<div className="hero is-primary">
 				<div className="hero-body container">
-					<h4 className="title">Our Products</h4>
+					<h4 className="title"
+						onClick={props.asad}
+					>Our Products</h4>
 				</div>
 			</div>
 			<br />
 			<div className="container">
 				<div className="column columns is-multiline">
-					{products && products.products.length ? (
-						products.products.map((product, index) => (
+					{productsCopy && productsCopy.products.length ? (
+						productsCopy.products.map((product, index) => (
 							<ProductItem
 								product={product}
 								key={index}
-							// addToCart={props.context.addToCart}
+								// addToCart={props.addToCart}
+								handleStock={handleStock}
 							/>
 						))
 					) : (
