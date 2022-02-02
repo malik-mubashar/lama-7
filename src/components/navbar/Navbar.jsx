@@ -4,9 +4,17 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 	const {
-		productsCopy, setProductsCopy, products, cart, setCart, cartTotal, setCartTotal
+		productsCopy, setProductsCopy, products, cart, setCart, cartTotal, setCartTotal, currentUser, setCurrentUser
 	} = useContext(RootContext);
+	const handlelogout = () => {
+		setCurrentUser(null);
+		// setCart([]);
+		// setCartTotal(null);
+		localStorage.setItem("currentUser", null);
+			// localStorage.setItem("cartTotal", null);
+			// localStorage.setItem("cart", JSON.stringify([]));
 
+	}
 	return (
 
 		<nav
@@ -48,13 +56,13 @@ const Navbar = () => {
 						{cartTotal}
 					</span>
 				</Link>
-				{true ? (
+				{!currentUser ? (
 					<Link to="/login" className="navbar-item">
 						Login
 					</Link>
 				) : (
 					<Link to="/"
-						// onClick={this.logout}
+							onClick={handlelogout}
 						className="navbar-item">
 						Logout
 					</Link>

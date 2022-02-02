@@ -2,47 +2,33 @@ import React, { useContext } from 'react';
 import { RootContext } from '../../context/index'
 import { Link } from 'react-router-dom';
 import CartItem from './CartItem';
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-	const cart = {
-		"shoes": {
-			"id": "shoes",
-			"product": {
-				"id": "hdmdu0t80yjkfqselfc",
-				"name": "shoes",
-				"stock": 5,
-				"price": 399.99,
-				"shortDesc": "Nulla facilisi. Curabitur at lacus ac velit ornare lobortis.",
-				"description": "Cras sagittis. Praesent nec nisl a purus blandit viverra. Ut leo. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Fusce a quam."
-			},
-			"amount": 3
-		},
-		"bags": {
-			"id": "bags",
-			"product": {
-				"id": "3dc7fiyzlfmkfqseqam",
-				"name": "bags",
-				"stock": 19,
-				"price": 299.99,
-				"shortDesc": "Nulla facilisi. Curabitur at lacus ac velit ornare lobortis.",
-				"description": "Cras sagittis. Praesent nec nisl a purus blandit viverra. Ut leo. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Fusce a quam."
-			},
-			"amount": 1
-		},
-		"shirts": {
-			"id": "shirts",
-			"product": {
-				"id": "aoe8wvdxvrkfqsew67",
-				"name": "shirts",
-				"stock": 13,
-				"price": 149.99,
-				"shortDesc": "Nulla facilisi. Curabitur at lacus ac velit ornare lobortis.",
-				"description": "Cras sagittis. Praesent nec nisl a purus blandit viverra. Ut leo. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Fusce a quam."
-			},
-			"amount": 1
+	let navigate = useNavigate();
+
+	const {
+		productsCopy, setProductsCopy, products, setProducts, cart, setCart, cartTotal, setCartTotal, currentUser, setCurrentUser
+	} = useContext(RootContext);
+	const handleCheckout = () => {
+		if (currentUser == null) {
+			navigate(`/login`)
+		} else {
+			setProducts(productsCopy);
+			setCart([]);
+			setCartTotal(null);
+			localStorage.setItem("cartTotal", null);
+			localStorage.setItem("cart", JSON.stringify([]));
 		}
-	};
-	const cartKeys = Object.keys(cart || {});
+	}
+
+	const handleClearCart = () => {
+		setProductsCopy(products);
+		setCart([]);
+		setCartTotal(null);
+		localStorage.setItem("cartTotal", null);
+		localStorage.setItem("cart", JSON.stringify([]));
+	}
 	debugger;
 	return (
 
@@ -54,13 +40,13 @@ const Cart = () => {
 			</div>
 			<br />
 			<div className="container">
-				{cartKeys.length ? (
+				{cart.length ? (
 					<div className="column columns is-multiline">
-						{cartKeys.map(key => (
+						{cart.map((item, i) => (
 							<CartItem
-								cartKey={key}
-								key={key}
-								cartItem={cart[key]}
+								item={item}
+								key={i}
+								// cartItem={cart[key]}
 							// removeFromCart={props.context.removeFromCart}
 							/>
 						))}
@@ -68,14 +54,14 @@ const Cart = () => {
 							<br />
 							<div className="is-pulled-right">
 								<button
-									// onClick={props.context.clearCart}
+									onClick={handleClearCart}
 									className="button is-warning "
 								>
 									Clear cart
 								</button>{" "}
 								<button
 									className="button is-success"
-								// onClick={props.context.checkout}
+									onClick={handleCheckout}
 								>
 									Checkout
 								</button>

@@ -11,6 +11,7 @@ import {
 import Navbar from './components/navbar/Navbar';
 import Products from './components/products/Products';
 import Cart from './components/Cart/Cart';
+import Login from './components/Login/Login';
 
 
 const Home = () => {
@@ -30,6 +31,7 @@ const Home = () => {
 				<Route path="/" element={<Products productsCopy={productsCopy} setProductsCopy={setProductsCopy} />} />
 				<Route path="/cart" element={<Cart />} />
 				<Route path="/products" element={<Products />} />
+				<Route path="/login" element={<Login />} />
 			</Routes>
 		</div>
 	)
