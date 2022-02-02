@@ -22,7 +22,7 @@ const Products = (props) => {
 	const addToCart = (obj) => {
 		let idFound = false;
 		let tempCart = [...cart];
-		if (cart.length == 0) {
+		if (cart && cart.length == 0) {
 			obj['quantity'] = 1;
 			tempCart.push(obj);
 		} else {
@@ -40,6 +40,7 @@ const Products = (props) => {
 		debugger;
 
 		setCart(tempCart);
+		localStorage.setItem("cart", JSON.stringify(tempCart));
 		calculateCartTotalProducts(tempCart);
 	}
 
@@ -49,6 +50,7 @@ const Products = (props) => {
 			total = total + x.quantity;
 		})
 		setCartTotal(total);
+		localStorage.setItem("cartTotal", JSON.stringify(total));
 	}
 
 	debugger;
