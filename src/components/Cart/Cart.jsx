@@ -3,6 +3,7 @@ import { RootContext } from '../../context/index'
 import { Link } from 'react-router-dom';
 import CartItem from './CartItem';
 import { useNavigate } from "react-router-dom";
+import { array } from 'i/lib/util';
 
 const Cart = () => {
 	let navigate = useNavigate();
@@ -14,6 +15,56 @@ const Cart = () => {
 		if (currentUser == null) {
 			navigate(`/login`)
 		} else {
+			console.log(cart);
+			let tempArr = [];
+			cart.map(x => {
+				var obj = {
+					_id: x._id,
+					remaining: x.stock - x.quantity
+				}
+				tempArr.push(obj);
+			})
+
+
+
+			debugger;
+			// ////////////
+			const requestOptions = {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					"Access-Control-Allow-Origin": "*",
+					mode: "no-cors",
+				},
+				body: JSON.stringify({ stockInfo: tempArr })
+			};
+			fetch('http://localhost:4000/products/updateproducts', requestOptions)
+				.then(response => response.json())
+				.then(data => {
+					debugger;
+
+				});
+
+
+			////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			setProducts(productsCopy);
 			setCart([]);
 			setCartTotal(null);
