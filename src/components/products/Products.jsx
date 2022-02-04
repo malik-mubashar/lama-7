@@ -8,10 +8,11 @@ const Products = (props) => {
 	} = useContext(RootContext);
 
 	const handleStock = (obj) => {
+		debugger;
 		console.log(props.productsCopy);
 		let tempObj = JSON.parse(JSON.stringify(productsCopy));
 		tempObj.products.map(x => {
-			if (x.id === obj.id) {
+			if (x._id === obj._id) {
 				x.stock = x.stock - 1;
 			}
 		});
@@ -27,7 +28,7 @@ const Products = (props) => {
 			tempCart.push(obj);
 		} else {
 			tempCart.map(x => {
-				if (x.id == obj.id) {
+				if (x._id == obj._id) {
 					x.quantity = x.quantity + 1;
 					idFound = true;
 				}

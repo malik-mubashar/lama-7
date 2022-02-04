@@ -4,17 +4,21 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 	const {
-		productsCopy, setProductsCopy, products, cart, setCart, cartTotal, setCartTotal, currentUser, setCurrentUser
+		productsCopy, setProductsCopy, products, cart, setCart, cartTotal, setCartTotal, currentUser, setCurrentUser, isSuperUser, setIsSuperUser
 	} = useContext(RootContext);
 	const handlelogout = () => {
 		setCurrentUser(null);
+		setIsSuperUser(false);
 		// setCart([]);
 		// setCartTotal(null);
+		localStorage.setItem("setIsSuperUser", JSON.stringify(false));
 		localStorage.setItem("currentUser", null);
 			// localStorage.setItem("cartTotal", null);
 			// localStorage.setItem("cart", JSON.stringify([]));
 
+
 	}
+	console.log("isSuperUser", isSuperUser);
 	return (
 
 		<nav
@@ -26,7 +30,7 @@ const Navbar = () => {
 				<b className="navbar-item is-size-4 ">ecommerce</b>
 				<label
 					role="button"
-					class="navbar-burger burger"
+					className="navbar-burger burger"
 					aria-label="menu"
 					aria-expanded="false"
 					data-target="navbarBasicExample"
@@ -42,6 +46,11 @@ const Navbar = () => {
 				<Link to="/products" className="navbar-item">
 					Products
 				</Link>
+				{isSuperUser &&
+					<Link to="/products" className="navbar-item">
+						Add New Product
+					</Link>
+				}
 				{/* {this.state.user && this.state.user.accessLevel < 1 && (
 						<Link to="/add-product" className="navbar-item">
 							Add Product
@@ -57,9 +66,14 @@ const Navbar = () => {
 					</span>
 				</Link>
 				{!currentUser ? (
-					<Link to="/login" className="navbar-item">
-						Login
-					</Link>
+					<div style={{ display: "flex" }}>
+						<Link to="/login" className="navbar-item">
+							Login
+						</Link>
+						<Link to="/signup" className="navbar-item">
+							Sign Up
+						</Link>
+					</div>
 				) : (
 					<Link to="/"
 							onClick={handlelogout}
